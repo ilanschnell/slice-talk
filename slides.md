@@ -4,53 +4,66 @@
 
 ---
 
-# The Problem
+# Introduction
 
-When defining a function like:
+Let's define a class to see what gets passed when we get an item:
 
-    def pow(x, y, z=None):
-        r = x ** y
-        if z is not None:
-            r %= z
-        return r
+    class Foo(object):
+        def __getitem__(self, item):
+            print(item)
 
-`x` and `y` are required, `z` is optional.
-Any parameter is either positional or keyword.
+    >>> f = Foo()
+    >>> f["key"]
+    'key'
+    >>> f[2]
+    2
+    >>> f[1:10:3]
+    slice(1, 10, 3)
+    >>> f[:]
+    slice(None, None, None)
 
-You can call it like:
-
-    pow(2, 6)
-    # the following should raise Exception (but don't)
-    pow(x=2, y=6)
-    pow(2, y=6, z=10)
-    pow(z=10, y=6, x=2)
-
-There is no restriction on the calling convention, no way to specify which
-parameters are positional or keyword.
+What is this `slice` object?
 
 ---
 
-# Positional-only parameters
+# Attributes
 
-PEP 457:
-Positional-only parameters are parameters without an externally-usable name;
-when a function is called these positional arguments are mapped to these
-parameters based solely on their position.
+The representaion tells you how to create a `slice` object:
 
-Python has always supported positional-only parameters.  In C:
+    >>> a = list(range(10))
+    >>> s = slice(1, 10, 3)
+    >>> a[s]
+    [1, 4, 7]
 
-    static PyObject
-    *f(PyObject *self, PyObject *args)
-    {
-        int p1, p2, p3 = 3;
+Let's look at the attributes:
 
-        if (!PyArg_ParseTuple(args, "ii|i:f", &p1, &p2, &p3))
-            return NULL;
+    >>> s.start
+    1
+    >>> s.stop
+    10
+    >>> s.step
+    3
+    >>> s.step = 2
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+    AttributeError: readonly attribute
+    >>> hash(s)
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+    TypeError: unhashable type: 'slice'
 
-        printf("%d %d %d\n", p1, p2, p3);
+Object is immutable, but also not hashable!?!
 
-        Py_RETURN_NONE;
-    }
+---
+
+# A single `.indices()` method
+
+    S.indices(len) -> (start, stop, stride)
+
+    Assuming a sequence of length len, calculate the start and stop
+    indices, and the stride length of the extended slice described by
+    S. Out of bounds indices are clipped in a manner consistent with the
+    handling of normal slices.
 
 ---
 
