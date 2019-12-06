@@ -1,9 +1,12 @@
 class Foo(object):
+
     def __init__(self, length):
         self.length = length
+
     def __getitem__(self, item):
-        if isinstance(item, slice):
-            i, stop, stride = item.indices(self.length)
+        if not isinstance(item, slice):
+            raise TypeError
+        i, stop, stride = item.indices(self.length)
         while i < stop:
             yield i
             i += stride

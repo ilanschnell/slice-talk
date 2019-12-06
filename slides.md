@@ -52,7 +52,7 @@ Let's look at the attributes:
       File "<stdin>", line 1, in <module>
     TypeError: unhashable type: 'slice'
 
-Object is immutable, but also not hashable!?!
+Object is immutable, but also not hashable!
 
 ---
 
@@ -64,6 +64,21 @@ Object is immutable, but also not hashable!?!
     indices, and the stride length of the extended slice described by
     S. Out of bounds indices are clipped in a manner consistent with the
     handling of normal slices.
+
+Allows you to easily create your own loops over indices:
+
+    class Loopy(object):
+
+        def __init__(self, length):
+            self.length = length
+
+        def __getitem__(self, item):
+            if not isinstance(item, slice):
+                raise TypeError
+            i, stop, stride = item.indices(self.length)
+            while i < stop:
+                yield i
+                i += stride
 
 ---
 
