@@ -10,7 +10,7 @@ Let's define a class to see what gets passed when we get an item:
 
     class Foo(object):
         def __getitem__(self, item):
-            print(item)
+            return item
 
     >>> f = Foo()
     >>> f["key"]
