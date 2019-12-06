@@ -16,4 +16,4 @@ fields = [
 for record in data:
     for field, sl in fields:
         print("%s: %s" % (field, record[sl]))
-    print('')
+    print()
