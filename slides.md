@@ -94,8 +94,8 @@ For example 2 dimensional array:
 
     >>> from numpy import array
     >>> a = array([[1, 2, 3],
-                   [4, 5, 6],
-                   [7, 8, 9]])
+    ...            [4, 5, 6],
+    ...            [7, 8, 9]])
     >>> a[2, 1]
     8
     >>> a[0, 1:]
