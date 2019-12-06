@@ -82,7 +82,7 @@ Allows you to easily create your own loops over indices:
 
 ---
 
-# Why is this important?
+# Relevance
 
 Normally users of Python don't have to deal with slice objects much,
 even though they use them all the time.
