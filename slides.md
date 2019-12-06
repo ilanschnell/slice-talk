@@ -82,7 +82,7 @@ Allows you to easily create your own loops over indices:
 
 ---
 
-# So what?
+# Why is this important?
 
 Normally users of Python don't have to deal with slice objects much,
 even though they use them all the time.
@@ -93,7 +93,9 @@ slicing syntax to access arrays.  For example: array, bitarray, numpy
 For example 2 dimensional array:
 
     >>> from numpy import array
-    >>> a = array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    >>> a = array([[1, 2, 3],
+                   [4, 5, 6],
+                   [7, 8, 9]])
     >>> a[2, 1]
     8
     >>> a[0, 1:]
