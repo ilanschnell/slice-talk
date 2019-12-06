@@ -75,10 +75,9 @@ Allows you to easily create your own loops over indices:
         def __getitem__(self, item):
             if not isinstance(item, slice):
                 raise TypeError
-            i, stop, stride = item.indices(self.length)
-            while i < stop:
+            start, stop, stride = item.indices(self.length)
+            for i in range(start, stop, stride):
                 yield i
-                i += stride
 
 ---
 

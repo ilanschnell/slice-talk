@@ -25,13 +25,11 @@ class Bitarray2D(object):
             s1 = slice(s1, s1 + 1)
         if isinstance(s2, int):
             s2 = slice(s2, s2 + 1)
-        i1, stop1, stride1 = s1.indices(self.n1)
-        while i1 < stop1:
-            i2, stop2, stride2 = s2.indices(self.n2)
-            while i2 < stop2:
+        start1, stop1, stride1 = s1.indices(self.n1)
+        start2, stop2, stride2 = s2.indices(self.n2)
+        for i1 in range(start1, stop1, stride1):
+            for i2 in range(start2, stop2, stride2):
                 self.data[i1 + self.n1 * i2] = value
-                i2 += stride2
-            i1 += stride1
 
 img = Bitarray2D(40, 30)
 img.clear()
