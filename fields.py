@@ -3,6 +3,8 @@ data = """\
 0020Wile E Coyote    312 Acme BLVD        Tucson        AZ
 0030Fred Flintstone  246 Granite Lane     Bedrock       CA
 0040Jonny Quest      31416 Science AVE    Palo Alto     CA
+0050Anne Costello    326 Michigan Rd      Round Rock    TX
+0060Robert Morrison  125 Hyndford St      Grand Island  NE
 """.splitlines()
 
 fields = [
