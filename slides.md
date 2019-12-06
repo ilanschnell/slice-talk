@@ -89,3 +89,15 @@ even though they use them all the time.
 
 They become important when writing libraries which support Python's
 slicing syntax to access arrays.  For example: array, bitarray, numpy
+
+For example 2 dimensional array:
+
+    >>> from numpy import array
+    >>> a = array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    >>> a[2, 1]
+    8
+    >>> a[0, 1:]
+    array([2, 3])
+    >>> a[:-1, :-1]
+    array([[1, 2],
+           [4, 5]])
