@@ -122,6 +122,38 @@ Object is immutable, but also not hashable!
 
 ---
 
+# Why is the slice not hashable?
+
+Assuming it was hashable, we could write:
+
+    >>> d = dict()
+    >>> s = slice(1, 5)
+    >>> d[s] = 42           # will actually raise a TypeError
+    >>> d[1:5]
+    42
+
+This would be confusing, as a dict is not a sequence!
+
+On the other hand, assuming the slice object would be mutable:
+
+    >>> a = "Python"
+    >>> s = slice(2, 4)
+    >>> a[s]
+    'th'
+    >>> s.start = 0         # will actually raise an AttributeError
+    >>> a[s]
+    'Pyth'
+
+Less, confusing.  I assume that (as there is no practical usecase
+for either) Guido did not want to leave any room for confusion.
+
+Or as Tim Peters would say:
+
+    Special cases aren't special enough to break the rules.
+    Although practicality beats purity.
+
+---
+
 # A single `.indices()` method
 
     S.indices(len) -> (start, stop, stride)
