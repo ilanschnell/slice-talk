@@ -4,6 +4,44 @@
 
 ---
 
+# Basics
+
+Python has a very easy and powerful slicing syntax:
+
+    >>> s = "Python rocks!"
+
+Fix six elements:
+
+    >>> s[:6]
+    'Python'
+
+Last six elements:
+
+    >>> s[-6:]
+    'rocks!'
+
+Every other element:
+
+    >>> s[::2]
+    'Pto ok!'
+
+Reverse elements:
+
+    >>> s[::-1]
+    '!skcor nohtyP'
+
+In general, we can index a sequence by index:
+
+    >>> s[index]
+
+Or slice:
+
+    >>> s[start:stop:step]
+
+(where each slice parameter is optional)
+
+---
+
 # Introduction
 
 Let's define a class to see what gets passed when we get an item:
@@ -19,6 +57,8 @@ Let's define a class to see what gets passed when we get an item:
     2
     >>> f[1:10:3]
     slice(1, 10, 3)
+    >>> f[3:-6]
+    slice(3, -6, None)
     >>> f[:]
     slice(None, None, None)
 
