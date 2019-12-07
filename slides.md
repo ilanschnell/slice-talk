@@ -92,7 +92,7 @@ Let's look at the attributes:
       File "<stdin>", line 1, in <module>
     TypeError: unhashable type: 'slice'
 
-Object is immutable, but also not hashable!
+Slice objects are immutable, but not hashable!
 
 ---
 
@@ -154,7 +154,7 @@ Or as Tim Peters would say:
 
 ---
 
-# A single `.indices()` method
+# Only one method: `.indices()`
 
     S.indices(len) -> (start, stop, stride)
 
