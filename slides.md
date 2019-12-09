@@ -216,3 +216,7 @@ For example 2 dimensional array:
     >>> a[:-1, :-1]
     array([[1, 2],
            [4, 5]])
+
+---
+
+# Thank you!
