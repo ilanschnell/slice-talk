@@ -4,12 +4,10 @@ class Foo(object):
         self.length = length
 
     def __getitem__(self, item):
-        if not isinstance(item, slice):
-            raise TypeError
-        start, stop, stride = item.indices(self.length)
-        for i in range(start, stop, stride):
-            yield i
-
+        if isinstance(item, slice):
+            for i in range(*item.indices(self.length)):
+                yield i
+        ...
 
 f = Foo(40)
 print(list(f[1:-5:7]))
