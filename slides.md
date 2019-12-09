@@ -284,6 +284,8 @@ For example 2 dimensional array:
     array([[1, 2],
            [4, 5]])
 
+    from numpy import s_
+
 ---
 
 # Thank you!
