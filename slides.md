@@ -194,14 +194,28 @@ Allows you to easily create your own loops over indices:
 
 ---
 
-# History
+# History - Python 1.4
+
+  * Python has always supported slicing
 
   * Python 1.4 (1996):
+
+      * From Python 1.4 release notes:
+
+    !text
+    Changes for use with Numerical Python: builtin function slice() and
+    Ellipses object, and corresponding syntax:
+
+    x[lo:hi:stride]         ==      x[slice(lo, hi, stride)]
+    x[a, ..., z]            ==      x[(a, Ellipses, z)]
+
+
+      * slice and Ellipsis objects added
 
       * the third slicing `step` argument was add to the syntax:
         `A[1:10:2], A[:-1:1], A[::-1]`
 
-      * by request of the developers of Numerical Python developers
+      * by request of the Numerical Python developers
 
       * Python's built-in sequence types did NOT supported this feature!
 
