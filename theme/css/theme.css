@@ -2,6 +2,8 @@ h1, h2, h3, h4, h5, h6, body, header {
     font-family: 'Candara', 'Alegreya Sans', 'Trebuchet Ms', 'Segoe UI', sans-serif;
 }
 
+h2 { color: #25c }
+
 section {
     font-family: 'Palatino', 'Palatino Linotype', 'URW Palladio L', 'Century Schoolbook L', 'Georgia', serif;
 }
