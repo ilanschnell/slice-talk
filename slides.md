@@ -162,6 +162,7 @@ for either) Guido did not want to leave any room for confusion.
 
 Or as Tim Peters would say:
 
+    !text
     Special cases aren't special enough to break the rules.
     Although practicality beats purity.
 
@@ -169,6 +170,7 @@ Or as Tim Peters would say:
 
 # Only one method: `.indices()`
 
+    !text
     S.indices(len) -> (start, stop, stride)
 
     Assuming a sequence of length len, calculate the start and stop

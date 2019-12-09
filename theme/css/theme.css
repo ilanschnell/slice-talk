@@ -97,7 +97,7 @@ code, tt.docutils.literal {
 /* Synic syntax highlighting */
 /*pre pre:not(.diff-line-pre),pre table{background:#000!important;color:#ffffffff0!important;}*/
 
-pre  { color: #000; background: #ffffff; }
+pre  { color: #15c; background: #ffffff; }
 
 pre .o { color: #00a } /* Operator */
 pre .c { color: #f80 } /* Comment.Single */
