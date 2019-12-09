@@ -194,34 +194,67 @@ Allows you to easily create your own loops over indices:
 
 ---
 
-# History - Python 1.4
+# History - Python 1.0.1 (1994)
 
-  * Python has always supported slicing
+Python had slicing:
 
-  * Python 1.4 (1996):
+    !text
+    Python 1.0.1
+    Copyright 1991-1994 Stichting Mathematisch Centrum, Amsterdam
+    >>> s = "Python"
+    >>> s[1:-2]
+    'yth'
+    >>> s[::-1]
+      File "<stdin>", line 1
+        s[::-1]
+           ^
+    SyntaxError: invalid syntax
 
-      * From Python 1.4 release notes:
+But:
+
+  * No slice object
+
+  * Only `start` and `stop` argument
+
+  * There was no third `step` (or `stride`) argument
+
+---
+
+# History - Python 1.4 (1996)
+
+Release notes:
 
     !text
     Changes for use with Numerical Python: builtin function slice() and
     Ellipses object, and corresponding syntax:
 
-    x[lo:hi:stride]         ==      x[slice(lo, hi, stride)]
-    x[a, ..., z]            ==      x[(a, Ellipses, z)]
+          x[lo:hi:stride]      ==     x[slice(lo, hi, stride)]
+          x[a, ..., z]         ==     x[(a, Ellipses, z)]
 
+Great:
 
-      * slice and Ellipsis objects added
+  * `slice` and `Ellipsis` objects added by Jim Hugunin and Chris Chase
 
-      * the third slicing `step` argument was add to the syntax:
-        `A[1:10:2], A[:-1:1], A[::-1]`
+  * the third slicing `step` argument was add to the syntax:
+    `A[1:10:2], A[:-1:1], A[::-1]`
 
-      * by request of the Numerical Python developers
+But:
 
-      * Python's built-in sequence types did NOT supported this feature!
+  * Python's built-in sequence types did NOT supported this feature!
 
-  * Python 2.3 (2003):
+---
 
-      * striding was added to built-in list, tuple, and string
+# History - Python 2.3 (2003)
+
+Michael Hudson submitted a patch for Python’s built-in list, tuple,
+and string sequence types to support the `step` argument:
+
+    !python
+    >>> s = "Python"
+    >>> s[::-1]
+    'nohtyP'
+
+<img src="./happy-lego.png" />
 
 ---
 
