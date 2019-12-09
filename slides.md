@@ -25,20 +25,24 @@ Last six elements:
 
 Every other element:
 
+    !python
     >>> s[::2]
     'Pto ok!'
 
 Reverse elements:
 
+    !python
     >>> s[::-1]
     '!skcor nohtyP'
 
 In general, we can index a sequence by index:
 
+    !python
     >>> s[index]
 
 Or slice:
 
+    !python
     >>> s[start:stop:step]
 
 (where each slice parameter is optional)
@@ -49,6 +53,7 @@ Or slice:
 
 Let's define a class to see what gets passed when we get an item:
 
+    !python
     class Foo(object):
         def __getitem__(self, item):
             return item
@@ -73,6 +78,7 @@ What is this `slice` object?
 
 The representaion tells you how to create a `slice` object:
 
+    !python
     >>> a = list(range(10))
     >>> s = slice(1, 10, 3)
     >>> a[s]
@@ -80,6 +86,7 @@ The representaion tells you how to create a `slice` object:
 
 Let's look at the attributes:
 
+    !python
     >>> s.start
     1
     >>> s.stop
@@ -171,6 +178,7 @@ Or as Tim Peters would say:
 
 Allows you to easily create your own loops over indices:
 
+    !python
     class Loopy(object):
 
         def __init__(self, length):
@@ -195,6 +203,7 @@ slicing syntax to access arrays.  For example: array, bitarray, numpy
 
 For example 2 dimensional array:
 
+    !python
     >>> from numpy import array
     >>> a = array([[1, 2, 3],
     ...            [4, 5, 6],
