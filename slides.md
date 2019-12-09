@@ -267,6 +267,8 @@ even though they use them all the time.
 They become important when writing libraries which support Python's
 slicing syntax to access arrays.  For example: array, bitarray, numpy
 
+<img src="./numpy.png" width="240" height="95" />
+
 For example 2 dimensional array:
 
     !python
