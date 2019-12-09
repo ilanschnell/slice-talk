@@ -1,4 +1,4 @@
-# <br /><center style="font-size: 135px">The Slice Object</center>
+# <br /><center style="font-size: 120px">The Slice Object</center>
 
 ## <center>Ilan Schnell</center><center>Schnell Analytics</center>
 
@@ -8,15 +8,18 @@
 
 Python has a very easy and powerful slicing syntax:
 
+    !python
     >>> s = "Python rocks!"
 
 Fix six elements:
 
+    !python
     >>> s[:6]
     'Python'
 
 Last six elements:
 
+    !python
     >>> s[-6:]
     'rocks!'
 
@@ -98,6 +101,7 @@ Slice objects are immutable, but not hashable!
 
 # Example
 
+    !python
     data = """\
     0010George Jetson    1245 Spaceship St    Houston       TX
     0020Wile E Coyote    312 Acme Blvd        Tucson        AZ
@@ -126,6 +130,7 @@ Slice objects are immutable, but not hashable!
 
 Assuming it was hashable, we could write:
 
+    !python
     >>> d = dict()
     >>> s = slice(1, 5)
     >>> d[s] = 42           # will actually raise a TypeError
@@ -136,6 +141,7 @@ This would be confusing, as a dict is not a sequence!
 
 On the other hand, assuming the slice object would be mutable:
 
+    !python
     >>> a = "Python"
     >>> s = slice(2, 4)
     >>> a[s]
