@@ -194,6 +194,23 @@ Allows you to easily create your own loops over indices:
 
 ---
 
+# History
+
+  * Python 1.4 (1996):
+
+      * the third slicing `step` argument was add to the syntax:
+        `A[1:10:2], A[:-1:1], A[::-1]`
+
+      * by request of the developers of Numerical Python developers
+
+      * Python's built-in sequence types did NOT supported this feature!
+
+  * Python 2.3 (2003):
+
+      * striding was added to built-in list, tuple, and string
+
+---
+
 # Relevance
 
 Normally users of Python don't have to deal with slice objects much,
