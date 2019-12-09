@@ -284,7 +284,11 @@ For example 2 dimensional array:
     array([[1, 2],
            [4, 5]])
 
-    from numpy import s_
+    >>> from numpy import s_
+    >>> s_[1::-2]
+    slice(1, None, -2)
+    >>> s_[1, ::-1, ..., 1:-1:3]
+    (1, slice(None, None, -1), Ellipsis, slice(1, -1, 3))
 
 ---
 
