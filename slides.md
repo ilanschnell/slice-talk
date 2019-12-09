@@ -240,7 +240,8 @@ Great:
 
 But:
 
-  * Python's built-in sequence types did NOT supported this feature!
+  * Python's built-in sequence types
+    did <span style="color: #e00;">NOT</span> supported this feature!
 
 ---
 
