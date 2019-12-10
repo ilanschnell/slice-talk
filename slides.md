@@ -1,6 +1,6 @@
 # <br /><center style="font-size: 120px">The Slice Object</center>
 
-## <center>Ilan Schnell</center><center>Schnell Analytics</center>
+## <center>Ilan Schnell</center>
 
 ---
 
