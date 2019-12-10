@@ -222,7 +222,7 @@ But:
 
 # History - Python 1.4 (1996)
 
-Release notes:
+From the release notes:
 
     !text
     Changes for use with Numerical Python: builtin function slice() and
