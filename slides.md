@@ -130,8 +130,8 @@ On the other hand, assuming the slice object would be mutable:
     >>> a[s]
     'Pyth'
 
-Less, confusing.  I assume that (as there is no practical usecase
-for either) Guido did not want to leave any room for confusion.
+Less, confusing. As there is no practical usecase for either,
+I assume that Guido did not want to leave any room for confusion.
 
 Or as Tim Peters would say:
 
@@ -265,7 +265,8 @@ Normally users of Python don't have to deal with slice objects much,
 even though they use them all the time.
 
 They become important when writing libraries which support Python's
-slicing syntax to access arrays.  For example: array, bitarray, numpy
+slicing syntax to access arrays.  For example: array, bitarray and in
+particular:
 
 <img src="./numpy.png" width="240" height="95" />
 
