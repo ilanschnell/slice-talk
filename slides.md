@@ -284,11 +284,29 @@ For example 2 dimensional array:
     array([[1, 2],
            [4, 5]])
 
+---
+
+<img src="./numpy.png" width="240" height="95" />
+
+Numpy's `s_`, a nicer way to build up index tuples for arrays:
+
+    !python
     >>> from numpy import s_
     >>> s_[1::-2]
     slice(1, None, -2)
     >>> s_[1, ::-1, ..., 1:-1:3]
     (1, slice(None, None, -1), Ellipsis, slice(1, -1, 3))
+
+We can simplify our earlier example:
+
+    !python
+    fields = [
+        ('id',      s_[:4]),
+        ('name',    s_[4:21]),
+        ('address', s_[21:42]),
+        ('city',    s_[42:56]),
+        ('state',   s_[56:58]),
+    ]
 
 ---
 
