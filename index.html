@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2010 Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Original slides: Marcin Wichary (mwichary@google.com)
+  Modifications: Ernest Delgado (ernestd@google.com)
+                 Alex Russell (slightlyoff@chromium.org)
+
+  landslide modifications: Adam Zapletal (adamzap@gmail.com)
+                           Nicolas Perriault (nperriault@gmail.com)
+-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title><br /><center style="font-size: 120px">The Slice Object</center></title>
+    <!-- Styles -->
+    
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" media="print" href="css/print.css">
+    <link rel="stylesheet" media="screen, projection" href="css/screen.css">
+    <link rel="stylesheet" media="all" href="theme/css/theme.css">
+    
+    
+    <!-- /Styles -->
+    <!-- Javascripts -->
+    
+    <script type="text/javascript" src="js/slides.js"></script>
+    
+    
+    <!-- /Javascripts -->
+</head>
+<body>
+  <div id="blank"></div>
+  <div class="presentation">
+    <div id="current_presenter_notes">
+      <div id="presenter_note"></div>
+    </div>
+    <div class="slides">
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-1">
+          <div class="inner">
+            
+            <header><h1><br /><center style="font-size: 120px">The Slice Object</center></h1></header>
+            
+            
+            <section><h2><center>Ilan Schnell</center></h2></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              1/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code slide-2">
+          <div class="inner">
+            
+            <header><h1>Basics</h1></header>
+            
+            
+            <section><p>Python has a very easy and powerful slicing syntax:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Python rocks!&quot;</span>
+</pre></div>
+
+<p>Fix six elements:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span>
+<span class="s1">&#39;Python&#39;</span>
+</pre></div>
+
+<p>Last six elements:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">:]</span>
+<span class="s1">&#39;rocks!&#39;</span>
+</pre></div>
+
+<p>Every other element:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>
+<span class="s1">&#39;Pto ok!&#39;</span>
+</pre></div>
+
+<p>Reverse elements:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="s1">&#39;!skcor nohtyP&#39;</span>
+</pre></div>
+
+<p>In general, we can index a sequence by index:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+</pre></div>
+
+<p>Or slice:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">:</span><span class="n">step</span><span class="p">]</span>
+</pre></div>
+
+<p>(where each slice parameter is optional)</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              2/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code slide-3">
+          <div class="inner">
+            
+            <header><h1>Introduction</h1></header>
+            
+            
+            <section><p>Let's define a class to see what gets passed when we get an item:</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">item</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Foo</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;key&quot;</span><span class="p">]</span>
+<span class="s1">&#39;key&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">f</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="mi">2</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">f</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span>
+<span class="nb">slice</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">f</span><span class="p">[:]</span>
+<span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+
+<p>What is this <code>slice</code> object?</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              3/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code slide-4">
+          <div class="inner">
+            
+            <header><h1>Attributes</h1></header>
+            
+            
+            <section><p>The representaion tells you how to create a <code>slice</code> object:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</pre></div>
+
+<p>Let's look at the attributes:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">start</span>
+<span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">stop</span>
+<span class="mi">10</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">step</span>
+<span class="mi">3</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">AttributeError</span><span class="p">:</span> <span class="n">readonly</span> <span class="n">attribute</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">hash</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="n">unhashable</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;slice&#39;</span>
+</pre></div>
+
+<p>Slice objects are immutable, but not hashable!</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              4/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code slide-5">
+          <div class="inner">
+            
+            <header><h1>Why is the slice not hashable?</h1></header>
+            
+            
+            <section><p>Assuming it was hashable, we could write:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>           <span class="c1"># will actually raise a TypeError</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="mi">42</span>
+</pre></div>
+
+<p>This would be confusing, as a dict is not a sequence!</p>
+<p>On the other hand, assuming the slice object would be mutable:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="s2">&quot;Python&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+<span class="s1">&#39;th&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>         <span class="c1"># will actually raise an AttributeError</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+<span class="s1">&#39;Pyth&#39;</span>
+</pre></div>
+
+<p>Less, confusing. As there is no practical usecase for either,
+I assume that Guido did not want to leave any room for confusion.</p>
+<p>Or as Tim Peters would say:</p>
+<div class="highlight"><pre><span></span>Special cases aren&#39;t special enough to break the rules.
+Although practicality beats purity.
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              5/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code slide-6">
+          <div class="inner">
+            
+            <header><h1>Example</h1></header>
+            
+            
+            <section><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">0010George Jetson    1245 Spaceship St    Houston       TX</span>
+<span class="s2">0020Wile E Coyote    312 Acme Blvd        Tucson        AZ</span>
+<span class="s2">0030Fred Flintstone  246 Granite Lane     Bedrock       CA</span>
+<span class="s2">0040Jonny Quest      31416 Science AVE    Palo Alto     CA</span>
+<span class="s2">0050Anne Costello    326 Michigan Rd      Round Rock    TX</span>
+<span class="s2">0060Robert Morrison  125 Hyndford St      Grand Island  NE</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+
+<span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span>      <span class="nb">slice</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">4</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>    <span class="nb">slice</span><span class="p">(</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">21</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">42</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s1">&#39;city&#39;</span><span class="p">,</span>    <span class="nb">slice</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="mi">56</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span>   <span class="nb">slice</span><span class="p">(</span><span class="mi">56</span><span class="p">,</span> <span class="mi">58</span><span class="p">)),</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">sl</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">record</span><span class="p">[</span><span class="n">sl</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              6/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code slide-7">
+          <div class="inner">
+            
+            <header><h1>Only one method: <code>.indices()</code></h1></header>
+            
+            
+            <section><div class="highlight"><pre><span></span>S.indices(len) -&gt; (start, stop, stride)
+
+Assuming a sequence of length len, calculate the start and stop
+indices, and the stride length of the extended slice described by
+S. Out of bounds indices are clipped in a manner consistent with the
+handling of normal slices.
+</pre></div>
+
+<p>Allows you to easily create your own loops over indices:</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Loopy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">length</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)):</span>
+                <span class="k">yield</span> <span class="n">i</span>
+        <span class="o">...</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              7/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code slide-8">
+          <div class="inner">
+            
+            <header><h1>History - Python 1.0.1 (1994)</h1></header>
+            
+            
+            <section><p>Python had slicing:</p>
+<div class="highlight"><pre><span></span>Python 1.0.1
+Copyright 1991-1994 Stichting Mathematisch Centrum, Amsterdam
+&gt;&gt;&gt; s = &quot;Python&quot;
+&gt;&gt;&gt; s[1:-2]
+&#39;yth&#39;
+&gt;&gt;&gt; s[::-1]
+  File &quot;&lt;stdin&gt;&quot;, line 1
+    s[::-1]
+       ^
+SyntaxError: invalid syntax
+</pre></div>
+
+<p>But:</p>
+<ul>
+<li>
+<p>No slice object</p>
+</li>
+<li>
+<p>Only <code>start</code> and <code>stop</code> argument</p>
+</li>
+<li>
+<p>There was no third <code>step</code> (or <code>stride</code>) argument</p>
+</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              8/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code slide-9">
+          <div class="inner">
+            
+            <header><h1>History - Python 1.4 (1996)</h1></header>
+            
+            
+            <section><p>From the release notes:</p>
+<div class="highlight"><pre><span></span>Changes for use with Numerical Python: builtin function slice() and
+Ellipses object, and corresponding syntax:
+
+      x[lo:hi:stride]      ==     x[slice(lo, hi, stride)]
+      x[a, ..., z]         ==     x[(a, Ellipses, z)]
+</pre></div>
+
+<p>Great:</p>
+<ul>
+<li>
+<p><code>slice</code> and <code>Ellipsis</code> objects added by Jim Hugunin and Chris Chase</p>
+</li>
+<li>
+<p>the third slicing <code>step</code> argument was add to the syntax:
+    <code>A[1:10:2], A[:-1:1], A[::-1]</code></p>
+</li>
+</ul>
+<p>But:</p>
+<ul>
+<li>Python's built-in sequence types
+    did <span style="color: #e00;">NOT</span> supported this feature!</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              9/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code slide-10">
+          <div class="inner">
+            
+            <header><h1>History - Python 2.3 (2003)</h1></header>
+            
+            
+            <section><p>Michael Hudson submitted a patch for Python’s built-in list, tuple,
+and string sequence types to support the <code>step</code> argument:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Python&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="s1">&#39;nohtyP&#39;</span>
+</pre></div>
+
+<p><img src="./happy-lego.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              10/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code slide-11">
+          <div class="inner">
+            
+            <header><h1>Relevance</h1></header>
+            
+            
+            <section><p>Normally users of Python don't have to deal with slice objects much,
+even though they use them all the time.</p>
+<p>They become important when writing libraries which support Python's
+slicing syntax to access arrays.  For example: array, bitarray and in
+particular:</p>
+<p><img src="./numpy.png" width="240" height="95" /></p>
+<p>For example 2 dimensional array:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="o">...</span>            <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+<span class="o">...</span>            <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="mi">8</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
+<span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]])</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              11/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code slide-12">
+          <div class="inner">
+            
+            
+            <section><p><img src="./numpy.png" width="240" height="95" /></p>
+<p>Numpy's <code>s_</code>, a nicer way to build up index tuples for arrays:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">s_</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s_</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="bp">Ellipsis</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+
+<p>We can simplify our earlier example:</p>
+<div class="highlight"><pre><span></span><span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span>      <span class="n">s_</span><span class="p">[:</span><span class="mi">4</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>    <span class="n">s_</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">21</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="n">s_</span><span class="p">[</span><span class="mi">21</span><span class="p">:</span><span class="mi">42</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;city&#39;</span><span class="p">,</span>    <span class="n">s_</span><span class="p">[</span><span class="mi">42</span><span class="p">:</span><span class="mi">56</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span>   <span class="n">s_</span><span class="p">[</span><span class="mi">56</span><span class="p">:</span><span class="mi">58</span><span class="p">]),</span>
+<span class="p">]</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              12/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-13">
+          <div class="inner">
+            
+            <header><h1>Thank you!</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              13/13
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div id="toc" class="sidebar hidden">
+    <h2>Table of Contents</h2>
+    <table>
+      <caption>Table of Contents</caption>
+
+<!-- macro for generating subsection of TOC -->
+
+<!-- end of macro -->
+
+      <!-- generating sections of TOC -->
+      
+      <tr id="toc-row-1">
+        <th><a href="#slide:1"><br /><center style="font-size: 120px">The Slice Object</center></a></th>
+        <td><a href="#slide:1">1</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-2">
+        <th><a href="#slide:2">Basics</a></th>
+        <td><a href="#slide:2">2</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-3">
+        <th><a href="#slide:3">Introduction</a></th>
+        <td><a href="#slide:3">3</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-4">
+        <th><a href="#slide:4">Attributes</a></th>
+        <td><a href="#slide:4">4</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-5">
+        <th><a href="#slide:5">Why is the slice not hashable?</a></th>
+        <td><a href="#slide:5">5</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-6">
+        <th><a href="#slide:6">Example</a></th>
+        <td><a href="#slide:6">6</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-7">
+        <th><a href="#slide:7">Only one method: <code>.indices()</code></a></th>
+        <td><a href="#slide:7">7</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-8">
+        <th><a href="#slide:8">History - Python 1.0.1 (1994)</a></th>
+        <td><a href="#slide:8">8</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-9">
+        <th><a href="#slide:9">History - Python 1.4 (1996)</a></th>
+        <td><a href="#slide:9">9</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-10">
+        <th><a href="#slide:10">History - Python 2.3 (2003)</a></th>
+        <td><a href="#slide:10">10</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-11">
+        <th><a href="#slide:11">Relevance</a></th>
+        <td><a href="#slide:11">11</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-13">
+        <th><a href="#slide:13">Thank you!</a></th>
+        <td><a href="#slide:13">13</a></td>
+      </tr>
+      
+      
+    </table>
+  </div>
+  
+  <div id="help" class="sidebar hidden">
+    <h2>Help</h2>
+    <table>
+      <caption>Help</caption>
+      <tr>
+        <th>Table of Contents</th>
+        <td>t</td>
+      </tr>
+      <tr>
+        <th>Exposé</th>
+        <td>ESC</td>
+      </tr>
+      <tr>
+        <th>Presenter View</th>
+        <td>p</td>
+      </tr>
+      <tr>
+        <th>Source Files</th>
+        <td>s</td>
+      </tr>
+      <tr>
+        <th>Slide Numbers</th>
+        <td>n</td>
+      </tr>
+      <tr>
+        <th>Toggle screen blanking</th>
+        <td>b</td>
+      </tr>
+      <tr>
+        <th>Show/hide next slide</th>
+        <td>c</td>
+      </tr>
+      <tr>
+        <th>Notes</th>
+        <td>2</td>
+      </tr>
+      <tr>
+        <th>Help</th>
+        <td>h</td>
+      </tr>
+    </table>
+    <br>
+    <strong>Generated with Darkslide 5.0.1</strong>
+  </div>
+  <script>main()</script>
+</body>
+</html>
