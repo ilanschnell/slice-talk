@@ -102,12 +102,12 @@ code, tt.docutils.literal {
 pre  { color: #15c; background: #ffffff; }
 
 pre .o { color: #00a } /* Operator */
-pre .c { color: #f80 } /* Comment.Single */
-pre .c1 { color: #f80 } /* Comment.Single */
+pre .c { color: #f50 } /* Comment.Single */
+pre .c1 { color: #f50 } /* Comment.Single */
 pre .s1 { color: #f55 } /* Literal.String.Single */
 pre .se { color: #f55 } /* Literal.String.Escape */
 pre .s2 { color: #f55 } /* Literal.String.Double */
 pre .k { color: #369 } /* Keyword */
-pre .n { color: #fa0 }
+pre .n { color: #d50 }
 pre .mi { color: #07f }
 pre .bp { color: #f30 }
